@@ -1,0 +1,8 @@
+package com.example.res_api_assignment2.repositories;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+import java.util.Optional;
+
+public interface UserRepository<User> extends MongoRepository<User, String> {
+//    Optional<User> findByEmail(String email); // To prevent duplicate usernames
+}

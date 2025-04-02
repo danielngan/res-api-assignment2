@@ -1,0 +1,4 @@
+package com.example.res_api_assignment2.model;
+
+public class Customer {
+}
