@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -60,4 +61,61 @@ public class CustomerController {
         response.put("message", "Customer registered successfully.");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, Object>> loginCustomer(@RequestBody Map<String, String> request) {
+        Map<String, Object> response = new HashMap<>();
+
+        String email = request.get("email");
+        String password = request.get("password");
+
+        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            response.put("message", "Email and password must not be empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        // Authenticate by checking if email-password pair is correct
+        boolean authenticated = customerService.authenticateCustomer(email, password);
+
+        if (authenticated) {
+            response.put("message", "Authentication successful.");
+            return ResponseEntity.ok(response); // 200 OK
+        } else {
+            response.put("message", "Invalid email or password.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response); // 401
+        }
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> getCustomerInfo(@PathVariable String id) {
+        Map<String, Object> response = new HashMap<>();
+
+        // Validate ID
+        if (id == null || id.trim().isEmpty()) {
+            response.put("message", "Customer ID is missing or invalid.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        Optional<Customer> customerOpt = customerService.getCustomerById(id);
+
+        if (customerOpt.isEmpty()) {
+            response.put("message", "Customer not found for ID: " + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+
+        Customer customer = customerOpt.get();
+
+        // Return only first name, last name, email
+        Map<String, Object> customerData = new HashMap<>();
+        customerData.put("firstName", customer.getFirstName());
+        customerData.put("lastName", customer.getLastName());
+        customerData.put("email", customer.getEmail());
+
+        response.put("message", "Customer retrieved successfully.");
+        response.put("customer", customerData);
+
+        return ResponseEntity.ok(response);
+    }
+
 }

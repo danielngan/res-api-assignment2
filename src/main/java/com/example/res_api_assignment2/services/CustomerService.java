@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
@@ -22,6 +23,24 @@ public class CustomerService {
         this.customerRepository = customerRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
+    public Optional<Customer> getCustomerById(String id) {
+        return customerRepository.findById(id);
+    }
+
+    public boolean authenticateCustomer(String email, String rawPassword) {
+        Optional<Customer> customerOpt = customerRepository.findByEmail(email);
+
+        if (customerOpt.isPresent()) {
+            Customer customer = customerOpt.get();
+
+            // This checks if the password matches the one for THIS email
+            return passwordEncoder.matches(rawPassword, customer.getPassword());
+        }
+
+        return false;
+    }
+
 
     public boolean emailExists(String email) {
         return customerRepository.findByEmail(email).isPresent();
