@@ -13,7 +13,8 @@ public class Movie {
     private String synopsis;
     private double rentPrice;
     private double outrightPrice;
-
+    private String smallPosterPath;
+    private String largePosterPath;
     private boolean isMovie;
     private boolean isFeatured;
 
@@ -21,12 +22,14 @@ public class Movie {
     public Movie() {
 
     }
-    public Movie(String name, double price, String synopsis,  double rentPrice, double outrightPrice,  boolean isMovie, boolean isFeatured) {
+    public Movie(String name, double price, String synopsis,  double rentPrice, double outrightPrice, String smallPosterPath, String largePosterPath,  boolean isMovie, boolean isFeatured) {
         this.name = name;
         this.price = price;
         this.synopsis = synopsis;
         this.rentPrice = rentPrice;
         this.outrightPrice = outrightPrice;
+        this.smallPosterPath = smallPosterPath;
+        this.largePosterPath = largePosterPath;
         this.isMovie = isMovie;
         this.isFeatured = isFeatured;
     }
@@ -93,6 +96,22 @@ public class Movie {
 
     public void setFeatured(boolean isFeatured) {
         this.isFeatured = isFeatured;
+    }
+
+    public String getSmallPosterPath() {
+        return smallPosterPath;
+    }
+
+    public void setSmallPosterPath(String smallPosterPath) {
+        this.smallPosterPath = smallPosterPath;
+    }
+
+    public String getLargePosterPath() {
+        return largePosterPath;
+    }
+
+    public void setLargePosterPath(String largePosterPath) {
+        this.largePosterPath = largePosterPath;
     }
 
 
