@@ -2,6 +2,7 @@ package com.example.res_api_assignment2.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "movies")
 public class Movie {
@@ -15,7 +16,9 @@ public class Movie {
     private double outrightPrice;
     private String smallPosterPath;
     private String largePosterPath;
+    @Field("isMovie")
     private boolean isMovie;
+    @Field("isFeatured")
     private boolean isFeatured;
 
     // Constructors
