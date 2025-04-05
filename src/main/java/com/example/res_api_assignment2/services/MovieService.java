@@ -35,6 +35,11 @@ public class MovieService {
         return movieRepository.findById(id);
     }
 
+    public boolean existsById(String id) {
+        return movieRepository.existsById(id);
+    }
+
+
 
 
 

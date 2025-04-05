@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -98,8 +100,12 @@ public class MovieController {
 
     @DeleteMapping("/delete/{id}")
     public String deleteMovie(@PathVariable String id) {
+        if (!movieService.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie with ID " + id + " not found.");
+        }
+
         movieService.deleteMovieById(id);
-        return "movie with ID " + id + " has been deleted.";
+        return "Movie with ID " + id + " has been deleted.";
     }
 
     @GetMapping("/search")
