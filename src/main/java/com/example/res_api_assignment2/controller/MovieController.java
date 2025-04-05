@@ -57,6 +57,13 @@ public class MovieController {
         }
 
         // Validate incoming data (basic check)
+        if (updatedMovie.getName() == null && updatedMovie.getPrice() == 0 &&
+                updatedMovie.getSynopsis() == null && updatedMovie.getRentPrice() == 0 &&
+                updatedMovie.getOutrightPrice() == 0 && updatedMovie.getSmallPosterPath() == null &&
+                updatedMovie.getLargePosterPath() == null && !updatedMovie.isMovie() &&
+                !updatedMovie.isFeatured()) {
+            return ResponseEntity.status(400).body("No data provided for update.");
+        }
 
 
         // Update fields
