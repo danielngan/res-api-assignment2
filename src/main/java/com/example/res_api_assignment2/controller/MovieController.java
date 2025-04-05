@@ -4,6 +4,7 @@ import com.example.res_api_assignment2.model.Movie;
 import com.example.res_api_assignment2.repositories.MovieRepository;
 import com.example.res_api_assignment2.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -37,9 +38,13 @@ public class MovieController {
     }
 
     @GetMapping("/getMovieById")
-    public Movie getMovieById(@RequestParam String id) {
-        return movieService.getMovieById(id)
-                .orElseThrow(() -> new RuntimeException("Movie not found with ID: " + id));
+    public ResponseEntity<Movie> getMovieById(@RequestParam String id) {
+        Optional<Movie> optionalMovie = movieRepository.findById(id);
+        if (optionalMovie.isPresent()) {
+            return ResponseEntity.ok(optionalMovie.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @PostMapping
