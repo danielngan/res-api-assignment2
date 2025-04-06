@@ -101,6 +101,7 @@ public class MovieController {
     @DeleteMapping("/delete/{id}")
     public String deleteMovie(@PathVariable String id) {
         if (!movieService.existsById(id)) {
+
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie with ID " + id + " not found.");
         }
 
