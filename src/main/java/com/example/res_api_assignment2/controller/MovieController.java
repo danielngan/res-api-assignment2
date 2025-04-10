@@ -42,6 +42,7 @@ public class MovieController {
     @GetMapping("/getMovieById")
     public ResponseEntity<Movie> getMovieById(@RequestParam String id) {
         Optional<Movie> optionalMovie = movieRepository.findById(id);
+        System.out.println("*** " + optionalMovie);
         if (optionalMovie.isPresent()) {
             return ResponseEntity.ok(optionalMovie.get());
         } else {
@@ -98,6 +99,12 @@ public class MovieController {
         return tvShows;
     }
 
+    @GetMapping("/getAll")
+    public List<Movie> getAllMovies() {
+        List<Movie> allMovies = movieService.getAllMovies();
+        return allMovies;
+    }
+
     @DeleteMapping("/delete/{id}")
     public String deleteMovie(@PathVariable String id) {
         if (!movieService.existsById(id)) {
@@ -123,5 +130,7 @@ public class MovieController {
     public List<Movie> getFeaturedTVShow() {
         return movieService.getFeaturedTVShows();
     }
+
+    //fdsasdf
 
 }

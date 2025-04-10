@@ -10,6 +10,8 @@ public interface MovieRepository extends MongoRepository<Movie, String> {
     // Search by name (case-insensitive, partial match)
     List<Movie> findByNameContainingIgnoreCase(String keyword);
 
+    List<Movie> findAll();
+
     // Featured content (movies or TV shows)
     List<Movie> findByIsFeatured(boolean isFeatured); // All featured content
 
